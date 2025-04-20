@@ -36,6 +36,13 @@ const Auth = new mongoose.Schema(
       type: String,
       default: null,
     },
+    passwordHistory: [
+      {
+        password: String,
+        changeAt: { type: Data, default: Date.now },
+      },
+    ],
+    passwordHistoryLimit: { type: Number, default: 3 },
   },
   {
     timestamps: true,
