@@ -6,13 +6,11 @@ import authRouter from "./routes/authRouter.js";
 import hotelRouter from "./routes/hotelRouter.js";
 import pemesananRouter from "./routes/pemesananRouter.js";
 
-const cors = require("cors");
-app.use(cors());
-
 const app = express();
 const port = 3001;
 configDotenv(); // Load environment variables from .env file
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
