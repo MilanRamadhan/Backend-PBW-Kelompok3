@@ -10,7 +10,7 @@ const app = express();
 const port = 3001;
 configDotenv(); // Load environment variables from .env file
 
-app.use(cors());
+app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
