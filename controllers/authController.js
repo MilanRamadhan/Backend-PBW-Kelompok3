@@ -95,7 +95,7 @@ export const login = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { fullName, userName, email, password, callNumber, address, role } = req.body;
+    const { fullName, userName, email, callNumber, address, role } = req.body;
 
     if (!userId) {
       return res.status(400).json({
