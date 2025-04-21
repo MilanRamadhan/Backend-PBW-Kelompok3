@@ -97,14 +97,14 @@ export const updateUser = [
   verifyToken,
   async (req, res) => {
     try {
-      const { fullName, userName, email, callNumber, address, role } = req.body;
+      const { fullName, userName, email, callNumber, address, status, role } = req.body;
 
       const { userId } = req.params;
 
-      if (!fullName || !email) {
+      if (!firstName || !email) {
         return res.status(400).json({
           status: 400,
-          message: "kolom full name ataupun kolom email tidak boleh kosong",
+          message: "kolom first name ataupun kolom email tidak boleh kosong",
         });
       }
 
@@ -246,33 +246,6 @@ export const changeProfilePhoto = [
   },
 ];
 
-export const getProfile = [
-  verifyToken,
-  async (req, res) => {
-    try {
-      const user = await Auth.findById(req.user.userId);
-
-      if (!user) {
-        return res.status(400).json({
-          status: 404,
-          message: "User tidak ditemukan",
-        });
-      }
-
-      return res.status(200).json({
-        status: 200,
-        data: user,
-        message: "User ditemukan",
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        message: "Internal Server Error",
-      });
-    }
-  },
-];
-
 export const getAllUsers = [
   verifyToken,
   async (req, res) => {
@@ -354,6 +327,33 @@ export const logout = [
       return res.status(200).json({ status: 200, message: "Pengguna berhasil keluar." });
     } catch (error) {
       return res.status(500).json({ status: 500, message: "Terjadi kesalahan saat keluar." });
+    }
+  },
+];
+
+export const getProfile = [
+  verifyToken,
+  async (req, res) => {
+    try {
+      const user = await Auth.findById(req.user.userId);
+
+      if (!user) {
+        return res.status(400).json({
+          status: 404,
+          message: "User tidak ditemukan",
+        });
+      }
+
+      return res.status(200).json({
+        status: 200,
+        data: user,
+        message: "User ditemukan",
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        message: "Internal Server Error",
+      });
     }
   },
 ];
