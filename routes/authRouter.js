@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { register, login, updateUser, updatePassword, getProfile } from "../controllers/authController.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { verifyToken } from "../middleware/auth.js";
 
 const authRouter = express.Router();
 authRouter.post("/register", register);

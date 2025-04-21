@@ -28,6 +28,10 @@ const Auth = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: Boolean,
+      default: true,
+    },
     role: {
       type: Boolean,
       required: true,

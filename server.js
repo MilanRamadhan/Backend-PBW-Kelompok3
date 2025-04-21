@@ -39,6 +39,8 @@ app.get("/", async (req, res) => {
   });
 });
 
+app.use("/auth", authRouter);
+
 connectDB()
   .then(() => {
     app.listen(port, () => {

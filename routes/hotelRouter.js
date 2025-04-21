@@ -6,4 +6,5 @@ hotelRouter.post("/createHotel", createHotel);
 hotelRouter.get("/getAllHotels", getAllHotels);
 hotelRouter.post("/updateHotel/:hotelId", updateHotelById);
 hotelRouter.delete("/deleteHotel/:hotelId", deleteHotelById);
+
 export default hotelRouter;
