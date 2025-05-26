@@ -9,6 +9,13 @@ export const createHotel = async (req, res) => {
         message: "semua kolom harus di isi",
       });
     }
+    const existingHotel = await Hotel.findOne({ hotelName: hotelName });
+    if (existingHotel) {
+      return res.status(409).json({
+        status: 409,
+        message: "Hotel dengan nama ini sudah terdaftar",
+      });
+    }
     const newHotel = new Hotel({
       hotelName,
       address,
