@@ -45,7 +45,7 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -78,17 +78,16 @@ export const login = async (req, res) => {
             return res.status(200).json({
               status: 200,
               data: user,
-              token: user.token,
+              message: "Login berhasil",
             });
           });
         }
       }
     }
   } catch (error) {
-    console.log("Error during login:", error);
     res.status(500).json({
       status: 500,
-      message: "Kesalahan server internal",
+      message: "Internal Server Error",
     });
   }
 };
