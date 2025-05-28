@@ -45,16 +45,16 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { userName, password } = req.body;
+    if (!userName || !password) {
       return res.status(400).json({
         status: 400,
         message: "Silakan isi semua kolom yang diperlukan.",
       });
     } else {
-      const user = await Auth.findOne({ email });
+      const user = await Auth.findOne({ userName });
       if (!user) {
         return res.status(400).json({ status: 400, message: "Email atau kata sandi salah." });
       } else {
@@ -78,16 +78,17 @@ export const login = async (req, res, next) => {
             return res.status(200).json({
               status: 200,
               data: user,
-              message: "Login berhasil",
+              token: user.token,
             });
           });
         }
       }
     }
   } catch (error) {
+    console.log("Error during login:", error);
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error",
+      message: "Kesalahan server internal",
     });
   }
 };
