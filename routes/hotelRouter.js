@@ -4,7 +4,7 @@ import { createHotel, getAllHotels, updateHotelById, deleteHotelById } from "../
 const hotelRouter = express.Router();
 hotelRouter.post("/createHotel", createHotel);
 hotelRouter.get("/getAllHotels", getAllHotels);
-hotelRouter.post("/updateHotel/:hotelId", updateHotelById);
+hotelRouter.post("/updateHotelById/:hotelId", updateHotelById);
 hotelRouter.delete("/deleteHotel/:hotelId", deleteHotelById);
 
 export default hotelRouter;
