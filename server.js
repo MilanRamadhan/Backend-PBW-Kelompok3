@@ -10,7 +10,19 @@ const app = express();
 const port = 3001;
 configDotenv(); // Load environment variables from .env file
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://127.0.0.1:5500", // Ini adalah origin default Live Server VS Code
+      "http://localhost:5500", // Ini juga umum digunakan Live Server
+      // Tambahkan origin deployment frontend Anda di sini jika sudah ada, contoh:
+      // 'https://nama-frontend-anda.vercel.app'
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Pastikan semua metode yang relevan diizinkan
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"], // Tambahkan header yang mungkin Anda gunakan
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
