@@ -47,14 +47,14 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { userName, password } = req.body;
-    if (!userName || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json({
         status: 400,
         message: "Silakan isi semua kolom yang diperlukan.",
       });
     } else {
-      const user = await Auth.findOne({ userName });
+      const user = await Auth.findOne({ email });
       if (!user) {
         return res.status(400).json({ status: 400, message: "Email atau kata sandi salah." });
       } else {
