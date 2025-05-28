@@ -1,3 +1,4 @@
+import { verifyToken } from "../middleware/auth.js";
 import Hotel from "../models/Hotel.js";
 
 export const createHotel = async (req, res) => {
@@ -59,50 +60,53 @@ export const getAllHotels = async (req, res) => {
   }
 };
 
-export const updateHotelById = async (req, res) => {
-  try {
-    const { hotelId } = req.params;
-    const { hotelName, address, rating, totalRoom, price } = req.body;
+export const updateHotelById = [
+  verifyToken,
+  async (req, res) => {
+    try {
+      const { hotelId } = req.params;
+      const { hotelName, address, rating, totalRoom, price } = req.body;
 
-    if (!hotelId) {
-      return res.status(400).json({
-        status: 400,
-        message: "HotelId diperlukan tetapi tidak disediakan",
+      if (!hotelId) {
+        return res.status(400).json({
+          status: 400,
+          message: "HotelId diperlukan tetapi tidak disediakan",
+        });
+      }
+
+      const existingHotel = await Hotel.findById(hotelId);
+      if (!existingHotel) {
+        return res.status(404).json({
+          status: 404,
+          message: "Hotel tidak ditemukan",
+        });
+      }
+
+      const updatedHotel = await Hotel.findByIdAndUpdate(
+        hotelId,
+        {
+          hotelName: hotelName ?? existingHotel.hotelName,
+          address: address ?? existingHotel.address,
+          rating: rating ?? existingHotel.rating,
+          totalRoom: totalRoom ?? existingHotel.totalRoom,
+          price: price ?? existingHotel.price,
+        },
+        { new: true }
+      );
+      await updatedHotel.save();
+      return res.status(201).json({
+        status: 201,
+        data: updatedHotel,
+        message: "Hotel berhasil diperbarui",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: "Internal server error",
       });
     }
-
-    const existingHotel = await Hotel.findById(hotelId);
-    if (!existingHotel) {
-      return res.status(404).json({
-        status: 404,
-        message: "Hotel tidak ditemukan",
-      });
-    }
-
-    const updatedHotel = await Hotel.findByIdAndUpdate(
-      hotelId,
-      {
-        hotelName: hotelName ?? existingHotel.hotelName,
-        address: address ?? existingHotel.address,
-        rating: rating ?? existingHotel.rating,
-        totalRoom: totalRoom ?? existingHotel.totalRoom,
-        price: price ?? existingHotel.price,
-      },
-      { new: true }
-    );
-    await updatedHotel.save();
-    return res.status(201).json({
-      status: 201,
-      data: updatedHotel,
-      message: "Hotel berhasil diperbarui",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      message: "Internal server error",
-    });
-  }
-};
+  },
+];
 
 export const deleteHotelById = async (req, res) => {
   try {
